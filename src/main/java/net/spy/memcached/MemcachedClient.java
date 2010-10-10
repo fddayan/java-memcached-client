@@ -56,7 +56,6 @@ import net.spy.memcached.vbucket.ConfigurationProviderHTTP;
 import net.spy.memcached.vbucket.Reconfigurable;
 import net.spy.memcached.vbucket.config.Bucket;
 import javax.naming.ConfigurationException;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * Client to a memcached server.
@@ -221,7 +220,7 @@ public class MemcachedClient extends SpyThread
             cfb.setAuthDescriptor(ad);
         }
         ConnectionFactory cf = cfb.build();
-        List<InetSocketAddress> addrs = AddrUtil.getAddresses(StringUtils.join(bucket.getVbuckets().getServers(), ','));
+        List<InetSocketAddress> addrs = AddrUtil.getAddresses(bucket.getVbuckets().getServers());
         if(cf == null) {
             throw new NullPointerException("Connection factory required");
         }

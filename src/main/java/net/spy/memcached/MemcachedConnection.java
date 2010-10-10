@@ -36,7 +36,6 @@ import net.spy.memcached.ops.VBucketAware;
 import net.spy.memcached.vbucket.VBucketNodeLocator;
 import net.spy.memcached.vbucket.Reconfigurable;
 import net.spy.memcached.vbucket.config.Bucket;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * Connection to a cluster of memcached servers.

@@ -29,6 +29,8 @@ RELEASED_VERSIONS=compute_released_verions.sort.reverse
 # Specify Maven 2.0 remote repositories here, like this:
 repositories.remote << "http://www.ibiblio.org/maven2/"
 repositories.remote << "http://bleu.west.spy.net/~dustin/m2repo/"
+repositories.remote << "http://repository.jboss.org/maven2/"
+repositories.remote << "http://repo1.maven.org/maven2/"
 
 require 'buildr/java/emma'
 
@@ -59,7 +61,8 @@ define "memcached" do
   compile.options.target = '1.5'
   manifest["Implementation-Vendor"] = COPYRIGHT
   compile.with "log4j:log4j:jar:1.2.15", "jmock:jmock:jar:1.2.0",
-               "junit:junit:jar:4.4"
+               "junit:junit:jar:4.4", "org.jboss.netty:netty:jar:3.1.5.GA",
+               "org.codehaus.jettison:jettison:jar:1.1", "commons-codec:commons-codec:jar:1.4"
 
   # Gen build
   gen_build_info "net.spy.memcached", "git"
