@@ -9,9 +9,9 @@
 
 package net.spy.memcached.vbucket;
 
-import com.northscale.jvbucket.Config;
 import net.spy.memcached.MemcachedNode;
 import net.spy.memcached.NodeLocator;
+import net.spy.memcached.vbucket.config.Config;
 
 import java.util.Collection;
 import java.util.Iterator;

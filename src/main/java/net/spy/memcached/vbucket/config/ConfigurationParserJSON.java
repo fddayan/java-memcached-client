@@ -1,8 +1,5 @@
 package net.spy.memcached.vbucket.config;
 
-import com.northscale.jvbucket.Config;
-import com.northscale.jvbucket.ConfigFactory;
-import com.northscale.jvbucket.DefaultConfigFactory;
 import org.codehaus.jettison.json.JSONObject;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;

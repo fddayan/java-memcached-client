@@ -1,6 +1,5 @@
 package net.spy.memcached.vbucket.config;
 
-import com.northscale.jvbucket.Config;
 
 import java.net.URI;
 import java.util.List;

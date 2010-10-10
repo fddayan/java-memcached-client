@@ -10,7 +10,6 @@ import java.text.ParseException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import com.northscale.jvbucket.DefaultConfig;
 
 /**
  * @author alexander.sokolovsky.a@gmail.com

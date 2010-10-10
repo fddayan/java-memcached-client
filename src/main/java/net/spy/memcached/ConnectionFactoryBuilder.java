@@ -12,7 +12,7 @@ import net.spy.memcached.protocol.ascii.AsciiOperationFactory;
 import net.spy.memcached.protocol.binary.BinaryOperationFactory;
 import net.spy.memcached.transcoders.Transcoder;
 import net.spy.memcached.vbucket.VBucketNodeLocator;
-import com.northscale.jvbucket.Config;
+import net.spy.memcached.vbucket.config.Config;
 
 /**
  * Builder for more easily configuring a ConnectionFactory.
