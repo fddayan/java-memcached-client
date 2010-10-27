@@ -2,12 +2,16 @@ package net.spy.memcached.vbucket;
 
 
 import net.spy.memcached.MemcachedNode;
+import net.spy.memcached.vbucket.config.DefaultConfigFactory;
+import net.spy.memcached.vbucket.config.Config;
+import net.spy.memcached.vbucket.config.ConfigFactory;
 //import static org.easymock.EasyMock.createMock;
 //import static org.easymock.EasyMock.expect;
 //import static org.easymock.EasyMock.replay;
 //import static org.easymock.EasyMock.verify;
 
 import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.util.Arrays;
 
 import junit.framework.TestCase;
@@ -59,5 +63,19 @@ public class VBucketNodeLocatorTest extends TestCase {
 
         verify(node1, node2, node3);
 */
+    }
+    public void testGetAlternative() {
+        MemcachedNodeMockImpl node1 = new MemcachedNodeMockImpl();
+        MemcachedNodeMockImpl node2 = new MemcachedNodeMockImpl();
+        MemcachedNodeMockImpl node3 = new MemcachedNodeMockImpl();
+        node1.setSocketAddress(new InetSocketAddress("127.0.0.1", 11211));
+        node2.setSocketAddress(new InetSocketAddress("127.0.0.1", 11210));
+        node3.setSocketAddress(new InetSocketAddress("127.0.0.1", 11211));
+        ConfigFactory configFactory = new DefaultConfigFactory();
+        Config config = configFactory.createConfigFromString(configInEnvelope);
+        VBucketNodeLocator locator = new VBucketNodeLocator(Arrays.asList((MemcachedNode)node1, node2, node3), config);
+        MemcachedNode primary = locator.getPrimary("k1");
+        MemcachedNode alternative = locator.getAlternative("k1", Arrays.asList(primary));
+        alternative.getSocketAddress();
     }
 }
