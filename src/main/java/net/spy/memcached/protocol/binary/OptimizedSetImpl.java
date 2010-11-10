@@ -138,7 +138,7 @@ public class OptimizedSetImpl extends OperationImpl implements Operation {
 
 	@Override
 	protected OperationStatus getStatusForErrorCode(int errCode, byte[] errPl) {
-		OperationStatus rv=null;
+        OperationStatus rv = super.getStatusForErrorCode(errCode, errPl);
 		switch(errCode) {
 			case ERR_EXISTS:
 				rv=EXISTS_STATUS;
