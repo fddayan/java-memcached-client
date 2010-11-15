@@ -155,6 +155,10 @@ public abstract class BaseOperationImpl extends SpyObject implements Operation {
 		handlingNode = to;
 	}
 
+	public int getVbucket() {
+		return vbucket;
+	}
+
 	public void setVBucket(int vbucket) {
 		this.vbucket = vbucket;
 	}
