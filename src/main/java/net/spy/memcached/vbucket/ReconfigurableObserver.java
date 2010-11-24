@@ -6,6 +6,8 @@ import java.util.Observer;
 import java.util.Observable;
 
 /**
+ * An implementation of the observer for calling reconfigure.
+ *
  * @author alexander.sokolovsky.a@gmail.com
  */
 public class ReconfigurableObserver implements Observer {
@@ -15,6 +17,11 @@ public class ReconfigurableObserver implements Observer {
         this.rec = rec;
     }
 
+    /**
+     * Delegates update to the reconfigurable passed in the constructor
+     * @param o
+     * @param arg
+     */
     public void update(Observable o, Object arg) {
         rec.reconfigure((Bucket) arg);
     }

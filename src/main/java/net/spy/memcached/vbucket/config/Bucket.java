@@ -5,8 +5,8 @@ import java.net.URI;
 import java.util.List;
 
 /**
- * Bucket
- * @author alexander.sokolovsky.a@gmail.comS
+ * Bucket configuration bean
+ * @author alexander.sokolovsky.a@gmail.com
  */
 public class Bucket {
     // Bucket name

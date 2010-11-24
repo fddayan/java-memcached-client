@@ -28,6 +28,8 @@ import net.spy.memcached.vbucket.config.Config;
 import javax.naming.ConfigurationException;
 
 /**
+ * Configuration management class that provides methods for retrieving vbucket configuration and receiving
+ * configuration updates.
  * @author alexander.sokolovsky.a@gmail.com
  */
 public class ConfigurationProviderHTTP implements ConfigurationProvider {
@@ -51,16 +53,34 @@ public class ConfigurationProviderHTTP implements ConfigurationProvider {
     private ConfigurationParser configurationParser = new ConfigurationParserJSON();
     private Map<String, BucketMonitor> monitors = new HashMap<String, BucketMonitor>();
 
+    /**
+     * Constructs a configuration provider with disabled authentication for the REST service
+     * @param baseList list of urls to treat as base
+     * @throws IOException
+     */
     public ConfigurationProviderHTTP(List<URI> baseList) throws IOException {
         this(baseList, null, null);
     }
 
+    /**
+     * Constructsa a configuration provider with a given credentials fo the REST service
+     * @param baseList list of urls to treat as base
+     * @param restUsr username
+     * @param restPwd password
+     * @throws IOException
+     */
     public ConfigurationProviderHTTP(List<URI> baseList, String restUsr, String restPwd) throws IOException {
         this.baseList = baseList;
         this.restUsr = restUsr;
         this.restPwd = restPwd;
     }
 
+    /**
+     * Connects to the REST service and retrieves the bucket configuration from the first pool available
+     * @param bucketname bucketname
+     * @return vbucket configuration
+     * @throws ConfigurationException
+     */
     public Bucket getBucketConfiguration(final String bucketname) throws ConfigurationException {
         if (bucketname == null || bucketname.isEmpty()) {
             throw new IllegalArgumentException("Bucket name can not be blank.");
@@ -138,6 +158,12 @@ public class ConfigurationProviderHTTP implements ConfigurationProvider {
         return AddrUtil.getAddresses(serversString.toString());
     }
 
+    /**
+     * Subscribes for configuration updates
+     * @param bucketName bucket name to receive configuration for
+     * @param rec reconfigurable that will receive updates
+     * @throws ConfigurationException
+     */
     public void subscribe(final String bucketName, final Reconfigurable rec) throws ConfigurationException {
 
         Bucket bucket = getBucketConfiguration(bucketName);
@@ -155,6 +181,11 @@ public class ConfigurationProviderHTTP implements ConfigurationProvider {
         }
     }
 
+    /**
+     * Unsubscribe from updates on a given bucket and given reconfigurable
+     * @param vbucketName bucket name
+     * @param rec reconfigurable
+     */
     public void unsubscribe(String vbucketName, Reconfigurable rec) {
         BucketMonitor monitor = this.monitors.get(vbucketName);
         if (monitor != null) {
@@ -171,6 +202,9 @@ public class ConfigurationProviderHTTP implements ConfigurationProvider {
         return ANONYMOUS_AUTH_BUCKET;
     }
 
+    /**
+     * Shutdowns a monitor connections to the REST service
+     */
     public void shutdown() {
         for (BucketMonitor monitor : this.monitors.values()) {
             monitor.shutdown();
@@ -204,6 +238,12 @@ public class ConfigurationProviderHTTP implements ConfigurationProvider {
 
     }
 
+    /**
+     * Helper method that reads content from url connection to the string
+     * @param connection a given url connection
+     * @return content string
+     * @throws IOException
+     */
     private String readToString(URLConnection connection) throws IOException {
         InputStream inStream = connection.getInputStream();
         if (connection instanceof java.net.HttpURLConnection) {
