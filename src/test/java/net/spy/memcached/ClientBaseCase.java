@@ -1,13 +1,16 @@
 package net.spy.memcached;
 
+import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
 public abstract class ClientBaseCase extends TestCase {
 
-	protected MemcachedClient client = null;
+	protected MemcachedClient client;
+	protected Boolean membase;
 
 	protected void initClient() throws Exception {
 		initClient(new DefaultConnectionFactory() {
@@ -57,6 +60,27 @@ public abstract class ClientBaseCase extends TestCase {
 
 	protected void flushPause() throws InterruptedException {
 		// nothing useful
+	}
+
+	protected boolean isMembase() {
+	    if (membase != null) {
+		    return membase.booleanValue();
+	    }
+	    	// some tests are invalid if membase
+
+		Map<SocketAddress, Map<String, String>> stats = client.getStats();
+		for (Map<String, String> node : stats.values()) {
+			if (node.get("ep_version") != null) {
+				membase = true;
+				   System.err.println("Found membase!");
+				break;
+			} else {
+				membase = false;
+				   System.err.println("Found memcached!");
+			}
+
+	    }
+	    return membase.booleanValue();
 	}
 
 }
