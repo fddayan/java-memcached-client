@@ -63,7 +63,7 @@ public class ConfigurationProviderHTTP implements ConfigurationProvider {
     }
 
     /**
-     * Constructsa a configuration provider with a given credentials fo the REST service
+     * Constructs a configuration provider with a given credentials for the REST service
      * @param baseList list of urls to treat as base
      * @param restUsr username
      * @param restPwd password
