@@ -90,14 +90,16 @@ public class VBucketNodeLocator implements NodeLocator {
     }
 
     private void setNodes(Collection<MemcachedNode> nodes) {
-        Map<String, MemcachedNode> nodesMap = new HashMap<String, MemcachedNode>();
+        Map<String, MemcachedNode> vbnodesMap = new HashMap<String, MemcachedNode>();
         for (MemcachedNode node : nodes) {
             InetSocketAddress addr = (InetSocketAddress) node.getSocketAddress();
             String address = addr.getAddress().getHostName() + ":" + addr.getPort();
-            nodesMap.put(address, node);
+	    String hostname = addr.getAddress().getHostAddress() + ":" + addr.getPort();
+            vbnodesMap.put(address, node);
+	    vbnodesMap.put(hostname, node);
         }
 
-        this.nodesMap = nodesMap;
+        this.nodesMap = vbnodesMap;
     }
 
     private void setConfig(final Config config) {
