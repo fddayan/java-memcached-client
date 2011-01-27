@@ -20,7 +20,7 @@ public class ConfigurationProviderHTTPTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        List<URI> baseList = Arrays.asList(new URI("http://localhost:8080/pools"));
+        List<URI> baseList = Arrays.asList(new URI("http://localhost:8091/pools"));
         configProvider = new ConfigurationProviderHTTP(baseList, restUsr, restPwd);
         assertNotNull(configProvider);
     }

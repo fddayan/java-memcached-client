@@ -11,7 +11,7 @@ import java.net.URI;
 public class BucketMonitorTest extends TestCase {
     private static final String username = "";
     private static final String password = "";
-    private static final String streamingUri = "http://127.0.0.1:8080/pools/default/bucketsStreaming/default";
+    private static final String streamingUri = "http://127.0.0.1:8091/pools/default/bucketsStreaming/default";
     private static final String bucketname = "default";
     private static final ConfigurationParserMock configParser = new ConfigurationParserMock();
     public void testInstantiate() throws Exception {
