@@ -99,14 +99,14 @@ public class ConfigurationProviderHTTP implements ConfigurationProvider {
                 URLConnection baseConnection = urlConnBuilder(null, baseUri);
                 String base = readToString(baseConnection);
                 if ("".equals(base)) {
-                    logger.log(Level.WARNING, "Provided URI " + baseUri + " has an empty response...skipping");
+                    logger.log(Level.WARNING, "Provided URI {0} has an empty response...skipping", baseUri);
                     continue;
                 }
                 Map<String, Pool> pools = this.configurationParser.parseBase(base);
 
                 // check for the default pool name
                 if (!pools.containsKey(DEFAULT_POOL_NAME)) {
-                    logger.log(Level.WARNING, "Provided URI " + baseUri + " has no default pool...skipping");
+                    logger.log(Level.WARNING, "Provided URI {0} has no default pool...skipping", baseUri);
                     continue;
                 }
                 // load pools
