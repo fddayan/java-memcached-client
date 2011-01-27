@@ -129,8 +129,6 @@ public class ConfigurationProviderHTTP implements ConfigurationProvider {
                 }
                 if (bucketFound) {
                     // set values
-                    //this.pools.clear();
-                    //this.pools.putAll(pools);
                     for (Pool pool : pools.values()) {
                         for (Map.Entry<String, Bucket> bucketEntry : pool.getBuckets().entrySet()) {
                             this.buckets.put(bucketEntry.getKey(), bucketEntry.getValue());

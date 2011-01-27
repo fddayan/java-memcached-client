@@ -121,7 +121,6 @@ public class BucketMonitor extends Observable {
         // Wait until the connection attempt succeeds or fails.
         channel = future.awaitUninterruptibly().getChannel();
         if (!future.isSuccess()) {
-            future.getCause().printStackTrace();
             bootstrap.releaseExternalResources();
             throw new ConnectionException("Could not connect to any pool member.");
         }
