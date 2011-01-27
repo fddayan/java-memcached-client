@@ -50,7 +50,9 @@ public class VBucketNodeLocator implements NodeLocator {
         int serverNumber = config.getMaster(vbucket);
         String server = config.getServer(serverNumber);
         // choose appropriate MemecachedNode according to config data
-        return nodesMap.get(server);
+	MemcachedNode pNode = nodesMap.get(server);
+	assert (pNode != null);
+        return pNode;
     }
 
     /**
