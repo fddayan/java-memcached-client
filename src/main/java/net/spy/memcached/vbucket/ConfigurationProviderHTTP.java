@@ -116,11 +116,11 @@ public class ConfigurationProviderHTTP implements ConfigurationProvider {
                     configurationParser.loadPool(pool, sPool);
                     URLConnection poolBucketsConnection = urlConnBuilder(baseUri, pool.getBucketsUri());
                     String sBuckets = readToString(poolBucketsConnection);
-                    Map<String, Bucket> buckets = configurationParser.parseBuckets(sBuckets);
-                    pool.getBuckets().putAll(buckets);
+                    Map<String, Bucket> loadedBuckets = configurationParser.parseBuckets(sBuckets);
+                    pool.getBuckets().putAll(loadedBuckets);
 
                 }
-                // did we found our bucket?
+                // did we find our bucket?
                 boolean bucketFound = false;
                 for (Pool pool : pools.values()) {
                     if (pool.getBuckets().containsKey(bucketToFind)) {
