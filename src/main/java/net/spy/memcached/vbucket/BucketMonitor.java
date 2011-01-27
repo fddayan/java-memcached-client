@@ -137,8 +137,8 @@ public class BucketMonitor extends Observable {
         }
         request.setHeader(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.CLOSE);  // No keep-alives for this
         request.setHeader(HttpHeaders.Names.CACHE_CONTROL, HttpHeaders.Values.NO_CACHE);
-        request.setHeader(HttpHeaders.Names.ACCEPT, "application/com.northscale.store+json");
-        request.setHeader(HttpHeaders.Names.USER_AGENT, "NorthScale Java Client from_git_stauts");
+        request.setHeader(HttpHeaders.Names.ACCEPT, "application/json");
+        request.setHeader(HttpHeaders.Names.USER_AGENT, "spymemcached vbucket client");
         /** @todo get the git describe in here */
         request.setHeader("X-memcachekv-Store-Client-Specification-Version", CLIENT_SPEC_VER);
         return request;

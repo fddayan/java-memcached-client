@@ -228,8 +228,8 @@ public class ConfigurationProviderHTTP implements ConfigurationProvider {
         }
         URL specURL = resource.toURL();
         URLConnection connection = specURL.openConnection();
-        connection.setRequestProperty("Accept", "application/com.northscale.store+json");
-        connection.setRequestProperty("user-agent", "NorthScale Java Client from_git_stauts");
+        connection.setRequestProperty("Accept", "application/json");
+        connection.setRequestProperty("user-agent", "spymemcached vbucket client");
         connection.setRequestProperty("X-memcachekv-Store-Client-Specification-Version", CLIENT_SPEC_VER);
 
         return connection;
