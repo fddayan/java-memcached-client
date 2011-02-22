@@ -251,6 +251,72 @@ public class MemcachedClient extends SpyThread
         this.configurationProvider.subscribe(bucketName, this);
         start();
     }
+    
+    public MemcachedClient(final List<URI> baseList,
+    		final String restUser,
+    		final String restPassowrd,
+    		final String bucketName,
+    		final String bucketUser, final String bucketPassword,
+    		final boolean isVBucketAware) throws IOException, ConfigurationException {
+    	for (URI bu : baseList) {
+    		if (!bu.isAbsolute()) {
+    			throw new IllegalArgumentException("The base URI must be absolute");
+    		}
+    	}
+    	
+    	this.configurationProvider = new ConfigurationProviderHTTP(baseList, restUser, restPassowrd);
+    	Bucket bucket = this.configurationProvider.getBucketConfiguration(bucketName);
+    	ConnectionFactoryBuilder cfb = new ConnectionFactoryBuilder();
+    	if (isVBucketAware) {
+    		cfb.setFailureMode(FailureMode.Retry)
+    		.setProtocol(ConnectionFactoryBuilder.Protocol.BINARY)
+    		.setHashAlg(HashAlgorithm.KETAMA_HASH)
+    		.setLocatorType(ConnectionFactoryBuilder.Locator.VBUCKET)
+    		.setVBucketConfig(bucket.getVbuckets());
+    	} else {
+    		cfb.setFailureMode(FailureMode.Retry)
+    		.setProtocol(ConnectionFactoryBuilder.Protocol.BINARY)
+    		.setHashAlg(HashAlgorithm.KETAMA_HASH)
+    		.setLocatorType(ConnectionFactoryBuilder.Locator.CONSISTENT);
+    		
+    	}
+    	if (!this.configurationProvider.getAnonymousAuthBucket().equals(bucketName) && bucketUser != null) {
+    		AuthDescriptor ad = new AuthDescriptor(new String[]{"PLAIN"},
+    				new PlainCallbackHandler(bucketUser, bucketPassword));
+    		cfb.setAuthDescriptor(ad);
+    	}
+    	ConnectionFactory cf = cfb.build();
+    	List<InetSocketAddress> addrs = AddrUtil.getAddresses(bucket.getVbuckets().getServers());
+    	if(cf == null) {
+    		throw new NullPointerException("Connection factory required");
+    	}
+    	if(addrs == null) {
+    		throw new NullPointerException("Server list required");
+    	}
+    	if(addrs.isEmpty()) {
+    		throw new IllegalArgumentException(
+    				"You must have at least one server to connect to");
+    	}
+    	if(cf.getOperationTimeout() <= 0) {
+    		throw new IllegalArgumentException(
+    				"Operation timeout must be positive.");
+    	}
+    	tcService = new TranscodeService(cf.isDaemon());
+    	transcoder=cf.getDefaultTranscoder();
+    	opFact=cf.getOperationFactory();
+    	assert opFact != null : "Connection factory failed to make op factory";
+    	conn=cf.createConnection(addrs);
+    	assert conn != null : "Connection factory failed to make a connection";
+    	operationTimeout = cf.getOperationTimeout();
+    	authDescriptor = cf.getAuthDescriptor();
+    	if(authDescriptor != null) {
+    		addObserver(this);
+    	}
+    	setName("Memcached IO over " + conn);
+    	setDaemon(cf.isDaemon());
+    	this.configurationProvider.subscribe(bucketName, this);
+    	start();
+    }
 
     public void reconfigure(Bucket bucket) {
         this.reconfiguring = true;
